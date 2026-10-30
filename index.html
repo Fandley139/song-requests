@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Song requests</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232f6fde' d='M9 18.5a3.5 3.5 0 1 1-2-3.16V4l12-2v13.5a3.5 3.5 0 1 1-2-3.16V6.36L9 7.7z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <div id="fatal" class="notice bad" role="alert" hidden>
+      <p id="fatal-text">The page could not start. Reload it. If it keeps happening, the page owner should check that every file was uploaded and that config.js has no typos.<br>Страница не запустилась. Обновите её. Если это повторяется, владелец страницы должен проверить, что загружены все файлы и в config.js нет опечаток.</p>
+    </div>
+    <noscript><div class="notice bad">This page needs JavaScript. / Для этой страницы нужен JavaScript.</div></noscript>
+
+    <header class="top">
+      <div>
+        <h1 data-i18n="title">Song requests</h1>
+        <p class="sub" data-i18n="subtitle"></p>
+      </div>
+      <div class="lang" role="group" id="lang">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="ru">RU</button>
+      </div>
+    </header>
+
+    <div id="notices" aria-live="polite"></div>
+
+    <div id="ready" class="ready" hidden>
+      <span class="dot" aria-hidden="true"></span>
+      <span id="ready-text"></span>
+    </div>
+
+    <section class="card" id="connections">
+      <div class="row">
+        <span class="dot" id="da-dot" aria-hidden="true"></span>
+        <div class="row-main">
+          <div class="row-title" data-i18n="row.da"></div>
+          <div class="row-status" id="da-status"></div>
+          <div class="row-detail" id="da-detail" hidden></div>
+        </div>
+        <button type="button" class="btn primary" id="da-button" hidden></button>
+      </div>
+
+      <div class="row">
+        <span class="dot" id="sp-dot" aria-hidden="true"></span>
+        <div class="row-main">
+          <div class="row-title" data-i18n="row.sp"></div>
+          <div class="row-status" id="sp-status"></div>
+          <div class="row-detail" id="sp-detail" hidden></div>
+        </div>
+        <button type="button" class="btn primary" id="sp-button" hidden></button>
+      </div>
+
+      <div id="sp-client" class="client" hidden>
+        <label for="sp-client-id" data-i18n="sp.clientLabel"></label>
+        <input id="sp-client-id" autocomplete="off" spellcheck="false" maxlength="64">
+        <p id="sp-client-error" class="field-error" data-i18n="sp.clientInvalid" hidden></p>
+        <details>
+          <summary data-i18n="sp.clientHow"></summary>
+          <ol class="steps">
+            <li data-i18n="sp.clientStep1"></li>
+            <li data-i18n="sp.clientStep2"></li>
+            <li>
+              <span data-i18n="sp.clientStep3"></span>
+              <span class="copy-row">
+                <input id="redirect-uri" readonly>
+                <button type="button" class="btn small" data-copy="redirect-uri" data-i18n="btn.copy"></button>
+              </span>
+            </li>
+            <li data-i18n="sp.clientStep4"></li>
+            <li data-i18n="sp.clientStep5"></li>
+          </ol>
+        </details>
+      </div>
+
+      <div class="row">
+        <span class="dot" id="player-dot" aria-hidden="true"></span>
+        <div class="row-main">
+          <div class="row-title" data-i18n="row.player"></div>
+          <div class="row-status" id="player-status"></div>
+          <div class="row-detail" id="player-detail" hidden></div>
+        </div>
+        <button type="button" class="btn" id="player-button" hidden></button>
+      </div>
+    </section>
+
+    <section class="card" id="obs-card" hidden>
+      <h2 data-i18n="obs.title"></h2>
+      <div id="obs-before">
+        <p data-i18n="obs.intro"></p>
+        <p class="muted" data-i18n="obs.before"></p>
+        <button type="button" class="btn primary" id="obs-move" data-i18n="btn.moveToObs"></button>
+        <p id="obs-need" class="muted small" data-i18n="obs.needBoth"></p>
+      </div>
+      <div id="obs-after" hidden>
+        <p data-i18n="obs.after"></p>
+        <span class="copy-row">
+          <textarea id="obs-link" readonly rows="3"></textarea>
+          <button type="button" class="btn small" data-copy="obs-link" data-i18n="btn.copy"></button>
+        </span>
+        <p class="warning" data-i18n="obs.warning"></p>
+        <ol class="steps">
+          <li data-i18n="obs.step1"></li>
+          <li data-i18n="obs.step2"></li>
+          <li data-i18n="obs.step3"></li>
+        </ol>
+        <p class="muted small" data-i18n="obs.lost"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 data-i18n="test.title"></h2>
+      <p class="muted small" data-i18n="test.hint"></p>
+      <form id="test-form" class="test-row">
+        <input id="test-text" data-i18n-placeholder="test.placeholder" autocomplete="off" maxlength="300">
+        <span class="buttons">
+          <button type="submit" class="btn" id="test-dry" data-i18n="btn.dry"></button>
+          <button type="button" class="btn primary" id="test-queue" data-i18n="btn.queue"></button>
+        </span>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2 data-i18n="activity.title"></h2>
+      <p id="activity-empty" class="muted small" data-i18n="activity.empty"></p>
+      <ol id="activity" class="activity"></ol>
+    </section>
+
+    <details class="card fold">
+      <summary><h2 data-i18n="rules.title"></h2></summary>
+      <form id="rules" class="rules" novalidate>
+        <label class="field">
+          <span data-i18n="rules.minAmount"></span>
+          <input type="number" id="rule-minAmount" min="0" step="any">
+          <small data-i18n="rules.minAmountHint"></small>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="rule-blockExplicit">
+          <span data-i18n="rules.blockExplicit"></span>
+        </label>
+        <label class="field">
+          <span data-i18n="rules.maxTrackMinutes"></span>
+          <input type="number" id="rule-maxTrackMinutes" min="0.1" step="any">
+        </label>
+        <label class="field">
+          <span data-i18n="rules.blockedWords"></span>
+          <textarea id="rule-blockedWords" rows="3" spellcheck="false"></textarea>
+          <small data-i18n="rules.blockedWordsHint"></small>
+        </label>
+        <label class="field">
+          <span data-i18n="rules.blockedArtists"></span>
+          <textarea id="rule-blockedArtists" rows="3" spellcheck="false"></textarea>
+          <small data-i18n="rules.blockedArtistsHint"></small>
+        </label>
+        <label class="field">
+          <span data-i18n="rules.duplicate"></span>
+          <input type="number" id="rule-duplicateWindowMinutes" min="0" step="any">
+          <small data-i18n="rules.duplicateHint"></small>
+        </label>
+        <p id="rules-saved" class="saved" data-i18n="rules.saved" hidden></p>
+      </form>
+    </details>
+
+    <details class="card fold">
+      <summary><h2 data-i18n="help.title"></h2></summary>
+      <p data-i18n="help.text"></p>
+      <p class="small" data-i18n="help.pageTextLabel"></p>
+      <span class="copy-row">
+        <textarea id="page-text" readonly rows="3"></textarea>
+        <button type="button" class="btn small" data-copy="page-text" data-i18n="btn.copy"></button>
+      </span>
+      <p data-i18n="help.keepOpen"></p>
+      <p class="muted small" data-i18n="help.rights"></p>
+    </details>
+
+    <footer class="foot">
+      <p class="muted small" data-i18n="footer.private"></p>
+      <button type="button" class="btn ghost" id="logout" hidden></button>
+    </footer>
+  </div>
+
+  <script>
+    // Shows the bilingual message above if the page's code could not load at all.
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(function () {
+        if (!window.songRequestsStarted) document.getElementById('fatal').hidden = false;
+      }, 0);
+    });
+  </script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
