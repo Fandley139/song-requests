@@ -1,4 +1,4 @@
- sa// Fill these in once (see README.md, step 5). They are public IDs and an address, not
+// Fill these in once (see README.md, step 5). They are public IDs and an address, not
 // passwords: never put a client secret or API key in this file.
 export default {
   // DonationAlerts application ID (a number, from https://www.donationalerts.com/application/clients).
